@@ -1,0 +1,22 @@
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+handlers:
+
+- url: /admin/.*
+  script: admin.app
+  login: admin
+
+- url: /api/.*
+  script: api.app
+
+- url: /.*
+  script: main.app
+  login: required
+
+libraries:
+- name: jinja2
+  version: "2.6"
+- name: markupsafe
+  version: "0.15"

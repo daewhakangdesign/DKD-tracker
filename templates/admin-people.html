@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h2>people</h2>
+    {% for person in people %}
+        <div>{{ person.name }} {{ person.event_count }}</div>
+        <form action="/admin/person/{{ person.uuid }}/delete" method="post">
+            <input type="submit" value="DELETE">
+        </form>
+        <form action="/admin/person/{{ person.uuid }}/reset" method="post">
+            <input type="submit" value="RESET">
+        </form>
+    {% endfor %}
+    <a href="/admin/new-person">new</a>
+{% endblock %}

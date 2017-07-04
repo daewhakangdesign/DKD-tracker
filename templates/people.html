@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h2>people</h2>
+    {% for person in people %}
+        <div>{{ person.name }} {{ person.event_count }}</div>
+        <form action="/new-event" method="post">
+            <input hidden=true type="text" name="event_type" value="stairs">
+            <input hidden=true type="text" name="person_uuid"  value="{{ person.uuid }}">
+            <input type="submit" value="ADD">
+        </form>
+    {% endfor %}
+{% endblock %}
