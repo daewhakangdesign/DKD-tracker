@@ -3,10 +3,59 @@
     <h2>Wonderful People</h2>
     {% for person in people %}
         <div>{{ person.name }} has climbed {{ person.event_count }}</div>
+
+
+
         <form action="/new-event" method="post">
             <input hidden=true type="text" name="event_type" value="stairs">
             <input hidden=true type="text" name="person_uuid"  value="{{ person.uuid }}">
             <input type="submit" value="I DID IT">
         </form>
+
+
+<canvas id="myCanvas" width="1024" height="200"
+style="border:1px solid #c3c3c3;">
+Your browser does not support the canvas element.
+</canvas>
+
+<script>
+//creates the canvas
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+
+//variable current date
+var currentDay = 520
+
+//variable holding the total count for the month
+var lastMonthTotal = 0
+var thisMonthTotal = 0
+
+//draw last month
+for (i = 0; i <= 720; i++) {
+ctx.fillStyle = 'rgb(200,200,200)';
+//randomly add stairs climbed if it happened
+if (Math.random() < .1) {
+lastMonthTotal++;
+}
+
+//the height of the rectangle is determined by thisMonthTotal
+ctx.fillRect(i,170,1, - lastMonthTotal);
+}
+
+for (i = 0; i <= currentDay; i = i + 2) {
+//randomly add stairs climbed if it happened
+if (Math.random() < .2) {
+//randomly add stairs climbed if it happened
+thisMonthTotal++;
+ctx.fillStyle = 'rgb(200,0,50)';
+ctx.fillRect(i,170,1, - thisMonthTotal);
+} else {
+ctx.fillStyle = 'rgb(200,100,150)';
+ctx.fillRect(i,170,1, - thisMonthTotal);
+}
+}
+
+</script>
+
     {% endfor %}
 {% endblock %}
