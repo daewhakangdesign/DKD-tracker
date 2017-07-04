@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-    <h2>people</h2>
+    <h2>Wonderful People</h2>
     {% for person in people %}
         <div>{{ person.name }} {{ person.event_count }}</div>
         <form action="/new-event" method="post">
