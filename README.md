@@ -84,3 +84,6 @@ See [LICENSE](LICENSE)
 
 ## Author
 Logan Henriquez and Johan Euphrosine
+
+DaeWha Kang Design
+Initial test of pushing to git. 4th of July 2017.
