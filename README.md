@@ -86,4 +86,4 @@ See [LICENSE](LICENSE)
 Logan Henriquez and Johan Euphrosine
 
 DaeWha Kang Design
-Initial test of pushing to git. 4th of July 2017.
+Just tried changing on the office desktop and testing git.
