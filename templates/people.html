@@ -13,14 +13,18 @@
         </form>
 
 
-<canvas id="myCanvas" width="1024" height="200"
-style="border:1px solid #c3c3c3;">
-Your browser does not support the canvas element.
-</canvas>
-
 <script>
+
 //creates the canvas
-var canvas = document.getElementById("myCanvas");
+var canv = document.createElement("canvas");
+canv.setAttribute('width', 1024);
+canv.setAttribute('height', 200);
+canv.setAttribute('id', "{{person.name}}");
+//canv.style.border   = "1px solid";
+
+document.body.appendChild(canv);
+
+var canvas = document.getElementById("{{person.name}}");
 var ctx = canvas.getContext("2d");
 
 //variable current date
