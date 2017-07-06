@@ -9,23 +9,44 @@
         <form action="/new-event" method="post">
             <input hidden=true type="text" name="event_type" value="stairs">
             <input hidden=true type="text" name="person_uuid"  value="{{ person.uuid }}">
-            <input type="submit" value="I DID IT">
+            <input type="submit" value={{ person.name }}>
         </form>
 
-
 <script>
+
+//import the person name of this iteration
+var persId = "{{person.name}}";
 
 //creates the canvas
 var canv = document.createElement("canvas");
 canv.setAttribute('width', 1024);
 canv.setAttribute('height', 200);
-canv.setAttribute('id', "{{person.name}}");
+canv.setAttribute('id', persId);
 //canv.style.border   = "1px solid";
 
 document.body.appendChild(canv);
 
-var canvas = document.getElementById("{{person.name}}");
+var canvas = document.getElementById(persId);
 var ctx = canvas.getContext("2d");
+
+//place image (this part not currently working)
+//base_image = new Image();
+//base_image.src = 'daewha.jpg';
+//base_image.onload = function(){
+//  context.drawImage(base_image, 495, 495);
+//}
+
+//for now place circle placeholder
+ctx.beginPath();
+ctx.arc(70,70, 60, 0, 2*Math.PI);
+ctx.strokeStyle='rgb(200,200,200)';
+ctx.stroke();
+
+//initial inside
+ctx.font = "48px Arial";
+ctx.textAlign="center";
+ctx.fillStyle = 'rgb(200,200,200)';
+ctx.fillText(persId.substring(0,2), 70,88);
 
 //variable current date
 var currentDay = 520
@@ -58,6 +79,10 @@ ctx.fillStyle = 'rgb(200,100,150)';
 ctx.fillRect(i,170,1, - thisMonthTotal);
 }
 }
+
+ctx.font = "84px Arial";
+ctx.textAlign="left";
+ctx.fillText(thisMonthTotal, 730,170);
 
 </script>
 

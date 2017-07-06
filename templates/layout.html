@@ -10,14 +10,10 @@
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
 
 </head>
-
-
 <body>
-
     {% block body %}
     {% endblock %}
     <a href="/">home</a> <a href="/admin/people">admin</a> <a href="{{ login_url }}">{{ url_linktext }}</a>
-
 </body>
 </html>
 
