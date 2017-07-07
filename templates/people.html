@@ -1,8 +1,8 @@
 {% extends "layout.html" %}
 {% block body %}
-    <h2>Wonderful People</h2>
+    <!--<h2>Wonderful People</h2>-->
     {% for person in people %}
-        <div>{{ person.name }} has climbed {{ person.event_count }}</div>
+        <!--<div>{{ person.name }} has climbed {{ person.event_count }}</div>-->
 
 
 
@@ -12,10 +12,16 @@
             <input type="submit" value={{ person.name }}>
         </form>
 
+<h2 class="hidden"><img id="daewha" width="120" height="120" src= {{ url_for('static', filename = 'css/images/daewha.jpg') }}> </h2>
+
 <script>
 
 //import the person name of this iteration
 var persId = "{{person.name}}";
+
+var persEventCt = "{{person.event_count}}"
+
+//import the image address
 
 //creates the canvas
 var canv = document.createElement("canvas");
@@ -29,24 +35,23 @@ document.body.appendChild(canv);
 var canvas = document.getElementById(persId);
 var ctx = canvas.getContext("2d");
 
-//place image (this part not currently working)
-//base_image = new Image();
-//base_image.src = 'daewha.jpg';
-//base_image.onload = function(){
-//  context.drawImage(base_image, 495, 495);
+//place image (work in progress)
+//window.onload = function() {
+var img = document.getElementById("daewha");
+ctx.drawImage(img, 10, 9, 123, 123);
 //}
 
 //for now place circle placeholder
-ctx.beginPath();
-ctx.arc(70,70, 60, 0, 2*Math.PI);
-ctx.strokeStyle='rgb(200,200,200)';
-ctx.stroke();
+//ctx.beginPath();
+//ctx.arc(70,70, 60, 0, 2*Math.PI);
+//ctx.strokeStyle='rgb(200,200,200)';
+//ctx.stroke();
 
 //initial inside
-ctx.font = "48px Arial";
-ctx.textAlign="center";
-ctx.fillStyle = 'rgb(200,200,200)';
-ctx.fillText(persId.substring(0,2), 70,88);
+//ctx.font = "48px Arial";
+//ctx.textAlign="center";
+//ctx.fillStyle = 'rgb(200,200,200)';
+//ctx.fillText(persId.substring(0,2), 70,88);
 
 //variable current date
 var currentDay = 520
@@ -82,7 +87,8 @@ ctx.fillRect(i,170,1, - thisMonthTotal);
 
 ctx.font = "84px Arial";
 ctx.textAlign="left";
-ctx.fillText(thisMonthTotal, 730,170);
+//ctx.fillText(thisMonthTotal, 730,170);
+ctx.fillText(persEventCt, 730,170);
 
 </script>
 
