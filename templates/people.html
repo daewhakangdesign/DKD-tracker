@@ -10,15 +10,16 @@
             <input type="submit" value={{ person.name }}>
         </form>
 
-{{ ["css/images/", person.name,".jpg"]|join('')}}
+<!--{{ [loop.index, " css/images/", person.name,".jpg"]|join('')}}-->
 
-<h2><img id="daewha" alt="missing profile pic!" width="120" height="120" src= {{ url_for('static', filename = ["css/images/", person.name,".jpg"]|join('')) }}> </h2>
+<h2 class="hidden"><img id="{{loop.index}}" alt="missing profile pic!" width="120" height="120" src= {{ url_for('static', filename = ["css/images/", person.name,".jpg"]|join('')) }}> </h2>
 
 <script>
 
 //import the person name of this iteration
 var persId = "{{person.name}}";
 var persEventCt = "{{person.event_count}}"
+var loopIteration = "{{loop.index}}"
 
 //import the image address
 
@@ -36,7 +37,7 @@ var ctx = canvas.getContext("2d");
 
 //place image (work in progress)
 //window.onload = function() {
-var img = document.getElementById("daewha");
+var img = document.getElementById(loopIteration);
 ctx.drawImage(img, 10, 9, 123, 123);
 //}
 
