@@ -12,7 +12,9 @@
             <input type="submit" value={{ person.name }}>
         </form>
 
-<h2 class="hidden"><img id="daewha" width="120" height="120" src= {{ url_for('static', filename = 'css/images/daewha.jpg') }}> </h2>
+{{ ["css/images/", person.name,".jpg"]|join('')}}
+
+<h2><img id="person.name" width="120" height="120" src= {{ url_for('static', filename = 'css/images/daewha.jpg') }}> </h2>
 
 <script>
 
@@ -37,8 +39,8 @@ var ctx = canvas.getContext("2d");
 
 //place image (work in progress)
 //window.onload = function() {
-var img = document.getElementById("daewha");
-ctx.drawImage(img, 10, 9, 123, 123);
+//var img = document.getElementById("daewha");
+//ctx.drawImage(img, 10, 9, 123, 123);
 //}
 
 //for now place circle placeholder
