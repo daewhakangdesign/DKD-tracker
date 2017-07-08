@@ -3,9 +3,7 @@
     <!--<h2>Wonderful People</h2>-->
     {% for person in people %}
         <!--<div>{{ person.name }} has climbed {{ person.event_count }}</div>-->
-
-
-
+       
         <form action="/new-event" method="post">
             <input hidden=true type="text" name="event_type" value="stairs">
             <input hidden=true type="text" name="person_uuid"  value="{{ person.uuid }}">
@@ -14,13 +12,12 @@
 
 {{ ["css/images/", person.name,".jpg"]|join('')}}
 
-<h2><img id="person.name" width="120" height="120" src= {{ url_for('static', filename = ["css/images/", person.name,".jpg"]|join('')) }}> </h2>
+<h2><img id="daewha" alt="missing profile pic!" width="120" height="120" src= {{ url_for('static', filename = ["css/images/", person.name,".jpg"]|join('')) }}> </h2>
 
 <script>
 
 //import the person name of this iteration
 var persId = "{{person.name}}";
-
 var persEventCt = "{{person.event_count}}"
 
 //import the image address
@@ -39,21 +36,9 @@ var ctx = canvas.getContext("2d");
 
 //place image (work in progress)
 //window.onload = function() {
-//var img = document.getElementById("daewha");
-//ctx.drawImage(img, 10, 9, 123, 123);
+var img = document.getElementById("daewha");
+ctx.drawImage(img, 10, 9, 123, 123);
 //}
-
-//for now place circle placeholder
-//ctx.beginPath();
-//ctx.arc(70,70, 60, 0, 2*Math.PI);
-//ctx.strokeStyle='rgb(200,200,200)';
-//ctx.stroke();
-
-//initial inside
-//ctx.font = "48px Arial";
-//ctx.textAlign="center";
-//ctx.fillStyle = 'rgb(200,200,200)';
-//ctx.fillText(persId.substring(0,2), 70,88);
 
 //variable current date
 var currentDay = 520
