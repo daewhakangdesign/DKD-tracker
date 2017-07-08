@@ -14,7 +14,7 @@
 
 {{ ["css/images/", person.name,".jpg"]|join('')}}
 
-<h2><img id="person.name" width="120" height="120" src= {{ url_for('static', filename = 'css/images/daewha.jpg') }}> </h2>
+<h2><img id="person.name" width="120" height="120" src= {{ url_for('static', filename = ["css/images/", person.name,".jpg"]|join('')) }}> </h2>
 
 <script>
 
