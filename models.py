@@ -18,7 +18,9 @@ class Person(ndb.Model):
     @property
     def event_thismonth(self):
 	#not yet working. #return Event.query(ancestor=self.key).filter(Event.name=="DaeWha Kang").count()
-        return Event.query(ancestor=self.key).count(limit=12) #test the property
+        #return Event.query(ancestor=self.key).count(limit=12) #test the property
+        return Event.query(ancestor=self.key).count() #test the property
+
 
     def reset(self):
         ndb.delete_multi(Event.query(ancestor=self.key).iter(keys_only=True))
