@@ -1,20 +1,20 @@
 {% extends "layout.html" %}
 {% block body %}
-    <!--<h2>Wonderful People</h2>-->
+
     {% for person in people %}
-        <!--<div>{{ person.name }} has climbed {{ person.event_count }}</div>-->
 
+	<!--This is the pre-loader of images to allow them to be placed on the canvas. We actually don't need this any longer
 	<h2 class="hidden"><img id="{{loop.index}}" alt="missing profile pic!" width="120" height="120" src= {{ url_for('static', filename = ["css/images/", person.name,".jpg"]|join('')) }}> </h2>
+	-->
 
-
+	<!--This is where we create the div to capture the form, and locate the form absolutely-->
 	<div style="position:absolute; width: 200px; height: 200px; left: 20px;">
-	  <div style="position:relative; top: 20px;">
+	  <div style="position:relative; top: 16px;">
 	        <form action="/new-event" method="post">
 	            <input hidden=true type="text" name="event_type" value="stairs">	
 	            <input hidden=true type="text" name="person_uuid"  value="{{ person.uuid }}">
-	            <input type="image" alt "Submit" width="123" height="123" src={{ url_for('static', filename = ["css/images/", person.name,".jpg"]|join('')) }} value={{ person.name }}>
-        	    <!--input type="submit" value={{ person.name }}-->	
-		    <!--button type="button">Click me!</button-->
+	            <input type="image" alt "Submit" width="115" height="115" src={{ url_for('static', filename = ["css/images/", person.name,".jpg"]|join('')) }} value={{ person.name }}>
+        	    <!--No longer needed old form<input type="submit" value={{ person.name }}>-->	
 	        </form>
 	  </div>
 	</div>
@@ -22,12 +22,30 @@
 	<script>
 
    	  //import the person name of this iteration
+	  //later we want to separate jinja variables from javascript (not sure why)
 	  var persId = "{{person.name}}";
 	  var persEventCt = "{{person.event_count}}"
 	  var loopIteration = "{{loop.index}}"
-	 	
-	  //import the image address
 
+	  //constants
+	  var basePos = 153 //the baseline position of the graph
+
+	  //dates
+	  var d = new Date();	
+	  var month = new Array();
+	  month[0] = "January";
+	  month[1] = "February";
+	  month[2] = "March";
+	  month[3] = "April";
+	  month[4] = "May";
+	  month[5] = "June";
+	  month[6] = "July";
+	  month[7] = "August";
+	  month[8] = "September";
+	  month[9] = "October";	 
+	  month[10] = "November";
+	  month[11] = "December";
+	 	
 	  //creates the canvas
 	  var canv = document.createElement("canvas");
 	  canv.setAttribute('width', 1024);
@@ -40,18 +58,14 @@
 	  var canvas = document.getElementById(persId);
 	  var ctx = canvas.getContext("2d");
 
-	  ////////////////////////////////////////////////
-	  //
-	  //this element below is critical but not working. 
-	  //when refreshing the browser on localhost we can get the	  
-	  //pictures showing up, but when on google cloud we are struggling.
-	  //
-
+	  ////////////////////////////////////////////////////////////
+	  //the below is no longer needed as we use the form as button
 	  //place image (work in progress)	
 	  //window.onload = function() {
 	  //var img = document.getElementById(loopIteration);
 	  //ctx.drawImage(img, 10, 9, 123, 123);
 	  //}
+	  ////////////////////////////////////////////////////////////
 
 	  //variable current date
 	  var currentDay = 520
@@ -61,7 +75,7 @@
 	  var thisMonthTotal = 0
 
 	  //draw last month
-	  for (i = 0; i <= 720; i++) {
+	  for (i = 0; i <= 837; i++) {
 	  ctx.fillStyle = 'rgb(200,200,200)';
 	  //randomly add stairs climbed if it happened	 
 	  if (Math.random() < .1) {	
@@ -69,39 +83,67 @@
 	  }
 
 	  //the height of the rectangle is determined by thisMonthTotal
-	  ctx.fillRect(i,170,1, - lastMonthTotal);
+	  ctx.fillRect(i,basePos,1, - lastMonthTotal);
 	  }
 
-	  for (i = 0; i <= currentDay; i = i + 2) {
+	  for (i = 0; i <= currentDay; i = i + 2.7) {
 	  //randomly add stairs climbed if it happened
 	  if (Math.random() < .2) {
 	  //randomly add stairs climbed if it happened
 	  thisMonthTotal++;
 	  ctx.fillStyle = 'rgb(200,0,50)';	 
-	  ctx.fillRect(i,170,1, - thisMonthTotal);
+	  ctx.fillRect(i,basePos,1, - thisMonthTotal);
 	  } else {
-	  ctx.fillStyle = 'rgb(200,100,150)';
-	  ctx.fillRect(i,170,1, - thisMonthTotal);
+	  ctx.fillStyle = 'rgb(180,140,160)';
+	  ctx.fillRect(i,basePos,1, - thisMonthTotal);
 	  }
 	  }
 
+	  //the right hand side text descriptors
 	  ctx.font = "84px Arial";
 	  ctx.textAlign="right";
-	  //ctx.fillText(leftPad(thisMonthTotal,3), 790,170);
-	  ctx.fillText(persEventCt, 850,155);
-	  ctx.font = "10px Arial";
+	  //ctx.fillText(leftPad(thisMonthTotal,3), 790, basePos -5);
+	  ctx.fillText(persEventCt, 1010, basePos - 8);
+	  ctx.font = "11px Arial";
 	  ctx.textAlign="right";
-	  ctx.fillText("FLIGHTS CLIMBED", 850,170);
+	  ctx.fillText("FLIGHTS CLIMBED", 1010,basePos + 15);
+
+	  //baseline and separating lines
+	  ctx.beginPath();
+	  ctx.moveTo(10,basePos);
+	  ctx.lineTo(1010,basePos);
+	  ctx.lineWidth=1;
+	  ctx.strokeStyle='rgb(200,200,200)';
+	  ctx.stroke();
+
+	  ctx.beginPath();
+	  ctx.lineWidth=2;
+	  ctx.strokeStyle='rgb(150,150,150)';
+	  ctx.moveTo(10,180);
+	  ctx.lineTo(1010,180);
+	  ctx.stroke();
+
+	  //text labels
+	  ctx.textAlign="left";
+	  ctx.fillStyle = 'rgb(150, 150, 150)';
+	  ctx.fillText(month[d.getMonth()] + " " + (d.getFullYear()) + " - " + persId, 10,basePos + 15);
+	  ctx.textAlign="right";
+	  ctx.fillStyle = 'rgb(200,200,200)';	
+	  ctx.fillText("Last month - " + lastMonthTotal, 837, basePos - lastMonthTotal - 5);
 
 
-	  //function for padding the stairs climbed
+	  /////////////
+	  //Functions//
+	  /////////////
+
+	  //function for padding the stairs climbed numbers
 	  function leftPad(number, targetLength) {
  	   var output = number + '';	
 	    while (output.length < targetLength) {	
 	        output = '0' + output;
 	    }	
 	    return output;
-}
+	    }
 
 
 	  </script>
