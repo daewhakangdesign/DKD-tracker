@@ -1,3 +1,5 @@
+import datetime
+
 from google.appengine.ext import ndb
 
 
@@ -10,16 +12,58 @@ class Person(ndb.Model):
         event.put()
 
     #Below we set up the properties accessible from the google datastore.
+
     @property
     def event_count(self):
-        return Event.query(ancestor=self.key).count()
 
-    #Here we must develop a query filtered for only the current month
+        query = self._query_month(utc_offset=9)
+        return query.count()
+
+
     @property
-    def event_thismonth(self):
-	#not yet working. #return Event.query(ancestor=self.key).filter(Event.name=="DaeWha Kang").count()
-        #return Event.query(ancestor=self.key).count(limit=12) #test the property
-        return Event.query(ancestor=self.key).count() #test the property
+    def events_this_month(self):
+
+        query = self._query_month(utc_offset=9)
+        keys = query.fetch(keys_only = True)
+        events = ndb.get_multi(keys)
+        return events
+
+
+    @property
+    def events_last_month(self):
+
+        query = self._query_month(previous=1, utc_offset=9)
+        keys = query.fetch(keys_only=True)
+        events = ndb.get_multi(keys)
+        return events
+
+
+    def _query_month(self, previous=0, utc_offset=0):
+        """
+        Returns a query for this person's events for current month or an earlier one
+        """
+
+        now = datetime.datetime.now()
+        year = now.year
+        month = now.month
+
+        if previous != 0:
+            month = month - previous
+            if month < 1:
+                month = month + 12
+                year = year - 1
+
+        start_of_this_month = datetime.datetime(year=year, month=month, day=1)
+
+        if month == 12:
+            start_of_next_month = datetime.datetime(year=year + 1, month=1, day=1)
+        else:
+            start_of_next_month = datetime.datetime(year=year, month=month + 1, day=1)
+
+        time_zone_correction = datetime.timedelta(hours=utc_offset)
+
+        return Event.query(ndb.AND(Event.at >= start_of_this_month - time_zone_correction,
+                                   Event.at < start_of_next_month - time_zone_correction), ancestor = self.key)
 
 
     def reset(self):
