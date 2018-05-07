@@ -26,11 +26,15 @@
    	  //import the person name of this iteration
 	  //later we want to separate jinja variables from javascript (not sure why)
 	  var persId = "{{person.name}}";
-	  var persEventCt = "{{person.event_count}}"
-	  var loopIteration = "{{loop.index}}"
+	  var persEventCt = "{{person.event_count}}";
+	  var loopIteration = "{{loop.index}}";
+	  var this_month_totals = {{ person.this_month_totals }};
+	  var last_month_totals = {{ person.last_month_totals }};
+
+	  console.log(this_month_totals);
 
 	  //constants
-	  var basePos = 153 //the baseline position of the graph
+	  var basePos = 153; //the baseline position of the graph
 
 	  //dates
 	  var d = new Date();	
@@ -69,37 +73,38 @@
 	  //}
 	  ////////////////////////////////////////////////////////////
 
-	  //variable current date
-	  var currentDay = 520
 
 	  //variable holding the total count for the month	  
-	  var lastMonthTotal = 0
-	  var thisMonthTotal = 0
+	  var lastMonthTotal = 0;
+	  var thisMonthTotal = 0;
 
-	  //draw last month
-	  for (i = 0; i <= 837; i++) {
 	  ctx.fillStyle = 'rgb(200,200,200)';
-	  //randomly add stairs climbed if it happened	 
-	  if (Math.random() < .1) {	
-	  lastMonthTotal++;	
-	  }
 
-	  //the height of the rectangle is determined by thisMonthTotal
-	  ctx.fillRect(i,basePos,1, - lastMonthTotal);
-	  }
+	  var i = 0;
 
-	  for (i = 0; i <= currentDay; i = i + 2.7) {
-	  //randomly add stairs climbed if it happened
-	  if (Math.random() < .2) {
-	  //randomly add stairs climbed if it happened
-	  thisMonthTotal++;
-	  ctx.fillStyle = 'rgb(200,0,50)';	 
-	  ctx.fillRect(i,basePos,1, - thisMonthTotal);
-	  } else {
-	  ctx.fillStyle = 'rgb(180,140,160)';
-	  ctx.fillRect(i,basePos,1, - thisMonthTotal);
-	  }
-	  }
+	  last_month_totals.forEach(function(total) {
+	      i++;
+		  lastMonthTotal += total;
+		  ctx.fillRect(i * 2, basePos, 2 , - lastMonthTotal);
+		});
+
+	  i = 0;
+
+
+	  this_month_totals.forEach(function(total){
+	      i++;
+		  if(total > 0){
+			  thisMonthTotal += total;
+		  	  ctx.fillStyle = 'rgb(200,0,50)';
+		  	  ctx.fillRect(i*2, basePos, 1, - thisMonthTotal);
+		  	  console.log("STEPPP");
+		  }
+		  else {
+		      ctx.fillStyle = 'rgb(180,140,160)';
+			  ctx.fillRect(i*2, basePos, 1, - thisMonthTotal);
+		  }
+	  });
+
 
 	  //the right hand side text descriptors
 	  ctx.font = "84px Arial";
